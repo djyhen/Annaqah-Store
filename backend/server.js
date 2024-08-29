@@ -1,4 +1,4 @@
-import 'dotenv/config.js'
+import 'dotenv/config'
 import express from 'express';
 import cors from 'cors';
 import { connectDB } from './config/db.js';
@@ -6,6 +6,7 @@ import productRouter from './routes/productRoute.js';
 import userRouter from './routes/userRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
+import { verifyOrder } from './controllers/orderController.js';
 
 const app = express();
 const PORT = 4000;
@@ -17,7 +18,7 @@ app.use(cors());
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));
 
-// Connect to the database
+// Connect to the databas
 connectDB();
 
 // API endpoint
@@ -25,6 +26,8 @@ app.use('/api/product', productRouter);
 app.use('/api/user',userRouter);
 app.use('/api/cart',cartRouter);
 app.use('/api/order',orderRouter);
+
+
 
 app.get("/", (req, res) => {
     res.send("API Working");

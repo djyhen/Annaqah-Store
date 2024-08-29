@@ -31,7 +31,7 @@ const Sidebar = () => {
         </NavLink>
         
         <NavLink
-          to="/orders"
+          to="/order"
           className={({ isActive }) =>
             isActive
               ? 'active-link'

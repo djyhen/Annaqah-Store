@@ -73,7 +73,7 @@ const Header = ({ setShowLogin }) => {
                         <div className="group relative">
                             <FaUserCircle className="text-2xl" />
                             <ul className="border-secondary shadow-sm p-3 w-24 ring-1 ring-slate-900/15 rounded absolute right-0 group-hover:flex flex-col hidden">
-                                <li className="flexCenter gap-x-2 cursor-pointer">
+                                <li onClick={()=>navigate("/myorders")} className="flexCenter gap-x-2 cursor-pointer">
                                     <FiPackage className="text-[19px]" />
                                     <p>Orders</p>
                                 </li>

@@ -84,7 +84,7 @@ const ShopContextProvider = (props) => {
 
     const loadCartData = async (token) => {
         try {
-            // Make a GET request to the /api/cart/get endpoint
+           
             const response = await axios.get(`${url}/api/cart/get`, { headers: { token } });
             if (response.status === 200) {
                 const cartData = response.data.cartData || {};

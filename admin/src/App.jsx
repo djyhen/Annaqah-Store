@@ -6,6 +6,7 @@ import AllProducts from './pages/AllProducts';
 import Order from './pages/Order';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Verify from '../../frontend/src/pages/Verify';
 
 
 
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/add" element={<AddProduct url={url} />} />
             <Route path="/list" element={<AllProducts url={url} />} />
             <Route path="/order" element={<Order url={url}/>} />
+            <Route path="/verify" element={<Verify url={url}/>} />
           </Routes>
         </div>
       </div>

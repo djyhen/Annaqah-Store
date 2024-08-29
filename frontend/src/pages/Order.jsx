@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../Context/ShopContext';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 const Order = () => {
+   const navigate = useNavigate()
   const {getTotalCartAmount,token,all_products,cartItems,url} = useContext(ShopContext)
   const [data,setData] = useState({
     firstName:"",
@@ -29,29 +31,49 @@ const Order = () => {
   
  */}
 
- const placeOrder = async (e)=>{
+ const placeOrder = async (e) => {
   e.preventDefault();
-  let orderItems = []
-  all_products.map((item)=>{
-    if(cartItems[item._id]>0){
-      let itemInfo = item;
-      itemInfo["quantity"] = cartItems[item._id];
-      orderItems.push(itemInfo);
+
+  let orderItems = [];
+  all_products.forEach((item) => {
+    if (cartItems[item._id] > 0) {
+        let itemInfo = { ...item };
+        itemInfo["quantity"] = cartItems[item._id];
+        orderItems.push(itemInfo);
     }
-  })
+  });
+
   let orderData = {
-    address:data,
-    items:orderItems,
-    amount:getTotalCartAmount()+7,
+      address: data,
+      items: orderItems,
+      amount: getTotalCartAmount() + 7,
+  };
+
+  try {
+      const response = await axios.post(url + "/api/order/place", orderData, { headers: { token } });
+
+      console.log('Order placement response:', response.data);
+
+      if (response.data.success) {
+          const { payment_link } = response.data;
+          console.log('Redirecting to:', payment_link);
+          window.location.replace(payment_link);  // Correctly redirect to the payment link
+      } else {
+          alert("Error occurred while processing the payment.");
+      }
+  } catch (error) {
+      console.error("Order placement failed: ", error);
+      alert("An error occurred while placing the order. Please try again.");
   }
-  let response = await axios.post(url+"/api/order/place",orderData,{headers:{token}});
-  if(response.data.success){
-    const {result} = res.data;
-    window.location.href(result.link);
-  }else{
-    alert("Error")
+};
+
+useEffect(()=>{
+  if(!token){
+    navigate("/cart")
+  }else if( getTotalCartAmount()===0 ){
+    navigate("/cart")
   }
- }
+},[token])
 
   return (
     <section className='max-padd-container py-28 xl:py-32'>
